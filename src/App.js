@@ -1,24 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { filterTasks } from './components/TaskActions/TaskActions';
+import AddTask from './components/AddTask/AddTask';
+import ListTask from './components/ListTask/ListTask'; 
+
+
 
 function App() {
+  const dispatch = useDispatch();
+  const filter = useSelector((state) => state.filter);
+
+  const handleFilterChange = (e) => {
+    dispatch(filterTasks(e.target.value));
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <div>
+      <h1>ToDo App</h1>
+      <AddTask />
+      <div>
+        <label>Show tasks: </label>
+        <select onChange={handleFilterChange} value={filter}>
+          <option value="all">All</option>
+          <option value="done">Done</option>
+          <option value="notDone">Not Done</option>
+        </select>
+      </div>
+      <ListTask />
+    
+  </div>
+      
   );
 }
 
